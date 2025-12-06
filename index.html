@@ -1,1 +1,1115 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Multilingual Kids Learning</title>
+    <style>
+        :root {
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-success: var(--color-teal-500);
+            --color-error: var(--color-red-500);
+            --color-text: var(--color-slate-900);
+            --color-bg: var(--color-cream-50);
+            --color-surface: var(--color-cream-100);
+            --color-teal-500: #208090;
+            --color-teal-600: #1d7480;
+            --color-red-500: #c0152f;
+            --color-slate-900: #134352;
+            --color-cream-50: #fcfcf9;
+            --color-cream-100: #fffffd;
+            --font-size-lg: 24px;
+            --font-size-xl: 32px;
+            --space-16: 16px;
+            --space-8: 8px;
+            --radius-base: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow: hidden;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-16);
+            background: linear-gradient(135deg, #208090 0%, #134352 100%);
+        }
+
+        .login-screen.hidden {
+            display: none;
+        }
+
+        .login-box {
+            background: var(--color-surface);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box h1 {
+            text-align: center;
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            color: var(--color-primary);
+        }
+
+        .login-box .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .login-box .role-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .login-box .role-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid var(--color-primary);
+            background: white;
+            color: var(--color-primary);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-box .role-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-base);
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(32, 128, 144, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .login-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-msg {
+            color: var(--color-error);
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Main App Screen */
+        .app-screen {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-screen.hidden {
+            display: none;
+        }
+
+        .header {
+            background: var(--color-primary);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.5);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 0;
+            background: #f0f0f0;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+            background: #f9f9f9;
+        }
+
+        .tab-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Letter Learning */
+        .letter-learning {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .lang-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--color-primary);
+            background: white;
+            color: var(--color-primary);
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .letter-display {
+            font-size: 120px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin: 20px 0;
+            font-family: serif;
+            text-transform: uppercase;
+            letter-spacing: 20px;
+        }
+
+        .letter-name {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .letter-counter {
+            font-size: 14px;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: var(--color-text);
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background: #e8e8e8;
+        }
+
+        .btn-success {
+            background: var(--color-success);
+            color: white;
+        }
+
+        .celebration-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+        }
+
+        .celebration-char {
+            font-size: 120px;
+            animation: dance 0.6s ease-in-out infinite;
+        }
+
+        @keyframes dance {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(-5deg); }
+            75% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Letter Tracing */
+        .tracing-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tracing-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        #tracingCanvas {
+            border: 2px solid var(--color-primary);
+            border-radius: var(--radius-base);
+            background: white;
+            cursor: crosshair;
+            touch-action: none;
+            flex: 1;
+            max-height: calc(100vh - 200px);
+        }
+
+        .tracing-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Admin Dashboard */
+        .admin-dashboard {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .student-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .student-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-base);
+            padding: 16px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .student-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 8px;
+        }
+
+        .student-stats {
+            font-size: 13px;
+            color: #666;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .stat-item {
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: var(--color-primary);
+        }
+
+        .stat-value {
+            color: #333;
+        }
+
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .progress-table th {
+            background: var(--color-primary);
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .progress-table td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .progress-table tr:hover {
+            background: #f9f9f9;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--color-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: var(--radius-base);
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .letter-display {
+                font-size: 80px;
+                letter-spacing: 10px;
+            }
+
+            .login-box {
+                padding: 30px 20px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .language-selector {
+                flex-direction: column;
+            }
+
+            .lang-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .letter-display {
+                font-size: 60px;
+            }
+
+            .controls {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Login Screen -->
+        <div class="login-screen" id="loginScreen">
+            <div class="login-box">
+                <h1>📚 Learning App</h1>
+                <p class="subtitle">Select your role to begin</p>
+                
+                <div class="role-selector">
+                    <button class="role-btn active" data-role="student">Student</button>
+                    <button class="role-btn" data-role="admin">Admin</button>
+                </div>
+
+                <div class="form-group">
+                    <label>Name / ID</label>
+                    <input type="text" id="userName" placeholder="Enter your name">
+                </div>
+
+                <button class="login-btn" id="loginBtn">Login</button>
+                <div class="error-msg" id="errorMsg"></div>
+            </div>
+        </div>
+
+        <!-- App Screen -->
+        <div class="app-screen" id="appScreen">
+            <div class="header">
+                <span id="headerTitle">Learning</span>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+
+            <!-- Student Section -->
+            <div id="studentSection">
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="learning">Letter Learning</button>
+                    <button class="tab-btn" data-tab="tracing">Letter Tracing</button>
+                    <button class="tab-btn" data-tab="progress">My Progress</button>
+                </div>
+
+                <!-- Letter Learning Tab -->
+                <div class="tab-content active" id="learningTab">
+                    <div class="letter-learning">
+                        <div class="language-selector">
+                            <button class="lang-btn active" data-lang="english">🇬🇧 English</button>
+                            <button class="lang-btn" data-lang="tamil">🇮🇳 Tamil</button>
+                            <button class="lang-btn" data-lang="hindi">🇮🇳 Hindi</button>
+                            <button class="lang-btn" data-lang="numbers">🔢 Numbers</button>
+                        </div>
+
+                        <div class="letter-name" id="letterName"></div>
+                        <div class="letter-display" id="letterDisplay">A</div>
+
+                        <div id="celebrationDiv"></div>
+
+                        <div class="letter-counter" id="letterCounter">Letter 1 of 26</div>
+
+                        <div class="controls">
+                            <button class="btn btn-primary" id="speakBtn">🔊 Speak</button>
+                            <button class="btn btn-secondary" id="recordBtn">🎤 Record</button>
+                            <button class="btn btn-success" id="nextBtn">✓ Mark Correct</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Letter Tracing Tab -->
+                <div class="tab-content" id="tracingTab">
+                    <div class="tracing-section">
+                        <div class="tracing-header">
+                            <select id="tracingLang" style="padding: 8px; border-radius: 4px; border: 1px solid #ddd;">
+                                <option value="english">English Letters</option>
+                                <option value="tamil">Tamil Letters</option>
+                                <option value="hindi">Hindi Letters</option>
+                                <option value="numbers">Numbers 0-9</option>
+                            </select>
+                            <button class="btn btn-secondary" id="clearTracingBtn" style="flex: 0;">Clear</button>
+                        </div>
+                        <canvas id="tracingCanvas"></canvas>
+                        <div class="tracing-controls">
+                            <div style="flex: 1; font-size: 14px; color: #666;">
+                                Trace the letter using dots. Dots appear on the canvas as you move your finger.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Tab -->
+                <div class="tab-content" id="progressTab">
+                    <div class="admin-dashboard">
+                        <h3>Your Progress</h3>
+                        <table class="progress-table">
+                            <thead>
+                                <tr>
+                                    <th>Language</th>
+                                    <th>Completed</th>
+                                    <th>Time (min)</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentProgressBody">
+                                <tr><td colspan="4" class="loading">Loading progress...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Section -->
+            <div id="adminSection" style="display: none; flex: 1; padding: 16px; overflow-y: auto;">
+                <h2>📊 Admin Dashboard</h2>
+                <div class="message" id="adminMsg" style="display: none;"></div>
+                <ul class="student-list" id="studentsList">
+                    <li style="text-align: center; color: #999;">Loading students...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase Configuration
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc, setDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAKt3rQXy-gsSN5yqbYs8IikTbt4O6h2Ow",
+            authDomain: "pl-kids.firebaseapp.com",
+            projectId: "pl-kids",
+            storageBucket: "pl-kids.firebasestorage.app",
+            messagingSenderId: "878398775850",
+            appId: "1:878398775850:web:6fe931bacce784f87cd953"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // State Management
+        let currentUser = null;
+        let userRole = 'student';
+        let currentLanguage = 'english';
+        let currentLetterIndex = 0;
+        let currentSession = null;
+        let recordingStartTime = null;
+
+        // Language Data
+        const languages = {
+            english: {
+                name: 'English',
+                lang: 'en-IN',
+                items: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),
+                displayType: 'letter'
+            },
+            tamil: {
+                name: 'Tamil',
+                lang: 'ta-IN',
+                items: ['அ', 'ஆ', 'இ', 'ஈ', 'உ', 'ஊ', 'எ', 'ஏ', 'ஐ', 'ஒ', 'ஓ', 'ஔ'],
+                displayType: 'letter'
+            },
+            hindi: {
+                name: 'Hindi',
+                lang: 'hi-IN',
+                items: ['अ', 'आ', 'इ', 'ई', 'उ', 'ऊ', 'ऋ', 'ए', 'ऐ', 'ओ', 'औ', 'अं'],
+                displayType: 'letter'
+            },
+            numbers: {
+                name: 'Numbers',
+                lang: 'en-IN',
+                items: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                displayType: 'number'
+            }
+        };
+
+        const numberWords = {
+            0: 'Zero', 1: 'One', 2: 'Two', 3: 'Three', 4: 'Four',
+            5: 'Five', 6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine'
+        };
+
+        const celebrationChars = ['🎉', '⭐', '🌟', '🎈', '🎊', '👏', '🚀', '💫'];
+
+        // DOM Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const appScreen = document.getElementById('appScreen');
+        const userNameInput = document.getElementById('userName');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const letterDisplay = document.getElementById('letterDisplay');
+        const letterName = document.getElementById('letterName');
+        const speakBtn = document.getElementById('speakBtn');
+        const recordBtn = document.getElementById('recordBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const letterCounter = document.getElementById('letterCounter');
+        const celebrationDiv = document.getElementById('celebrationDiv');
+        const tracingCanvas = document.getElementById('tracingCanvas');
+        const clearTracingBtn = document.getElementById('clearTracingBtn');
+        const headerTitle = document.getElementById('headerTitle');
+
+        // Speech Recognition & Synthesis Setup
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-IN';
+        }
+
+        // Canvas Setup for Tracing
+        let canvas2D = tracingCanvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Event Listeners - Login
+        const roleButtons = document.querySelectorAll('.role-btn');
+        roleButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                roleButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                userRole = btn.dataset.role;
+            });
+        });
+
+        loginBtn.addEventListener('click', async () => {
+            if (!userNameInput.value.trim()) {
+                errorMsg.textContent = 'Please enter your name';
+                return;
+            }
+
+            try {
+                loginBtn.disabled = true;
+                await signInAnonymously(auth);
+                currentUser = {
+                    name: userNameInput.value.trim(),
+                    role: userRole,
+                    uid: auth.currentUser.uid,
+                    loginTime: new Date()
+                };
+                await saveUserToFirebase();
+                showAppScreen();
+            } catch (error) {
+                errorMsg.textContent = 'Login failed: ' + error.message;
+                loginBtn.disabled = false;
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                currentUser = null;
+                showLoginScreen();
+            } catch (error) {
+                alert('Logout error: ' + error.message);
+            }
+        });
+
+        // Language Selection
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLanguage = btn.dataset.lang;
+                currentLetterIndex = 0;
+                updateLetterDisplay();
+            });
+        });
+
+        // Letter Learning Controls
+        speakBtn.addEventListener('click', () => {
+            speakLetter();
+        });
+
+        recordBtn.addEventListener('click', () => {
+            if (!recognition) {
+                alert('Speech recognition not supported in your browser');
+                return;
+            }
+            recordingStartTime = Date.now();
+            recognition.lang = languages[currentLanguage].lang;
+            recordBtn.textContent = '⏹️ Stop';
+            recordBtn.classList.add('active');
+            recognition.start();
+        });
+
+        recognition && recognition.addEventListener('result', (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            console.log('Recognized:', transcript);
+            recordBtn.textContent = '🎤 Record';
+            recordBtn.classList.remove('active');
+        });
+
+        recognition && recognition.addEventListener('end', () => {
+            recordBtn.textContent = '🎤 Record';
+            recordBtn.classList.remove('active');
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const timeTaken = recordingStartTime ? Math.round((Date.now() - recordingStartTime) / 1000) : 0;
+            recordingStartTime = null;
+            logProgressToSheet(currentLanguage, currentLetterIndex + 1, timeTaken);
+            currentLetterIndex++;
+            
+            if (currentLetterIndex % 5 === 0) {
+                showCelebration();
+            } else {
+                updateLetterDisplay();
+            }
+        });
+
+        // Tab Navigation
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(tabName + 'Tab').classList.add('active');
+                
+                if (tabName === 'progress') {
+                    loadStudentProgress();
+                }
+                if (tabName === 'tracing') {
+                    resizeTracingCanvas();
+                }
+            });
+        });
+
+        // Canvas Tracing
+        tracingCanvas.addEventListener('touchstart', handleTracingStart, false);
+        tracingCanvas.addEventListener('touchmove', handleTracingMove, false);
+        tracingCanvas.addEventListener('touchend', handleTracingEnd, false);
+        tracingCanvas.addEventListener('mousedown', handleTracingStart, false);
+        tracingCanvas.addEventListener('mousemove', handleTracingMove, false);
+        tracingCanvas.addEventListener('mouseup', handleTracingEnd, false);
+        tracingCanvas.addEventListener('mouseout', handleTracingEnd, false);
+
+        clearTracingBtn.addEventListener('click', () => {
+            canvas2D.clearRect(0, 0, tracingCanvas.width, tracingCanvas.height);
+        });
+
+        function handleTracingStart(e) {
+            e.preventDefault();
+            isDrawing = true;
+            const rect = tracingCanvas.getBoundingClientRect();
+            if (e.touches) {
+                lastX = e.touches[0].clientX - rect.left;
+                lastY = e.touches[0].clientY - rect.top;
+            } else {
+                lastX = e.clientX - rect.left;
+                lastY = e.clientY - rect.top;
+            }
+        }
+
+        function handleTracingMove(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+            const rect = tracingCanvas.getBoundingClientRect();
+            let x, y;
+            if (e.touches) {
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            drawDot(x, y);
+        }
+
+        function handleTracingEnd(e) {
+            e.preventDefault();
+            isDrawing = false;
+        }
+
+        function drawDot(x, y) {
+            canvas2D.fillStyle = '#208090';
+            canvas2D.beginPath();
+            canvas2D.arc(x, y, 6, 0, Math.PI * 2);
+            canvas2D.fill();
+        }
+
+        function resizeTracingCanvas() {
+            const rect = tracingCanvas.parentElement.getBoundingClientRect();
+            tracingCanvas.width = rect.width;
+            tracingCanvas.height = rect.height - 80;
+        }
+
+        // Functions
+        function updateLetterDisplay() {
+            const items = languages[currentLanguage].items;
+            if (currentLetterIndex >= items.length) {
+                currentLetterIndex = 0;
+            }
+            const current = items[currentLetterIndex];
+            letterDisplay.textContent = current;
+            
+            if (languages[currentLanguage].displayType === 'number') {
+                letterName.textContent = numberWords[parseInt(current)];
+            } else {
+                letterName.textContent = current;
+            }
+            
+            letterCounter.textContent = `Letter ${currentLetterIndex + 1} of ${items.length}`;
+            celebrationDiv.innerHTML = '';
+            speakLetter();
+        }
+
+        function speakLetter() {
+            const items = languages[currentLanguage].items;
+            const current = items[currentLetterIndex];
+            const text = languages[currentLanguage].displayType === 'number' 
+                ? numberWords[parseInt(current)]
+                : current;
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = languages[currentLanguage].lang;
+            utterance.rate = 0.8;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function showCelebration() {
+            const char = celebrationChars[Math.floor(Math.random() * celebrationChars.length)];
+            celebrationDiv.innerHTML = `<div class="celebration-container"><div class="celebration-char">${char}</div></div>`;
+            
+            setTimeout(() => {
+                updateLetterDisplay();
+            }, 5000);
+        }
+
+        function showLoginScreen() {
+            loginScreen.classList.remove('hidden');
+            appScreen.classList.add('hidden');
+            userNameInput.value = '';
+            errorMsg.textContent = '';
+            loginBtn.disabled = false;
+        }
+
+        function showAppScreen() {
+            loginScreen.classList.add('hidden');
+            appScreen.classList.remove('hidden');
+            headerTitle.textContent = currentUser.role === 'student' ? 'Student' : 'Admin';
+            
+            if (currentUser.role === 'student') {
+                document.getElementById('studentSection').style.display = 'block';
+                document.getElementById('adminSection').style.display = 'none';
+                updateLetterDisplay();
+                setTimeout(resizeTracingCanvas, 100);
+            } else {
+                document.getElementById('studentSection').style.display = 'none';
+                document.getElementById('adminSection').style.display = 'block';
+                loadAdminData();
+            }
+        }
+
+        async function saveUserToFirebase() {
+            try {
+                await setDoc(doc(db, 'users', currentUser.uid), {
+                    name: currentUser.name,
+                    role: currentUser.role,
+                    createdAt: new Date(),
+                    isActive: true
+                });
+            } catch (error) {
+                console.error('Error saving user:', error);
+            }
+        }
+
+        async function logProgressToSheet(language, letterCount, timeTaken) {
+            try {
+                await addDoc(collection(db, 'progress'), {
+                    userId: currentUser.uid,
+                    userName: currentUser.name,
+                    language: language,
+                    lettersCompleted: letterCount,
+                    timeTakenSeconds: timeTaken,
+                    timestamp: new Date(),
+                    sessionId: currentSession || generateSessionId()
+                });
+                currentSession = currentSession || generateSessionId();
+            } catch (error) {
+                console.error('Error logging progress:', error);
+            }
+        }
+
+        async function loadStudentProgress() {
+            try {
+                const q = query(collection(db, 'progress'), where('userId', '==', currentUser.uid));
+                const snapshot = await getDocs(q);
+                const tbody = document.getElementById('studentProgressBody');
+                
+                if (snapshot.empty) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #999;">No progress yet</td></tr>';
+                    return;
+                }
+
+                let html = '';
+                snapshot.docs.forEach(doc => {
+                    const data = doc.data();
+                    const date = data.timestamp?.toDate?.() || new Date();
+                    html += `<tr>
+                        <td>${data.language}</td>
+                        <td>${data.lettersCompleted}</td>
+                        <td>${Math.round(data.timeTakenSeconds / 60)}</td>
+                        <td>${date.toLocaleDateString()}</td>
+                    </tr>`;
+                });
+                
+                tbody.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading progress:', error);
+            }
+        }
+
+        async function loadAdminData() {
+            try {
+                const q = query(collection(db, 'users'), where('role', '==', 'student'));
+                const snapshot = await getDocs(q);
+                const studentsList = document.getElementById('studentsList');
+                
+                if (snapshot.empty) {
+                    studentsList.innerHTML = '<li style="text-align: center; color: #999;">No students yet</li>';
+                    return;
+                }
+
+                let html = '';
+                for (const userDoc of snapshot.docs) {
+                    const user = userDoc.data();
+                    const progressQuery = query(collection(db, 'progress'), where('userId', '==', userDoc.id));
+                    const progressSnapshot = await getDocs(progressQuery);
+                    
+                    const totalLetters = progressSnapshot.docs.reduce((sum, doc) => sum + doc.data().lettersCompleted, 0);
+                    const totalTime = progressSnapshot.docs.reduce((sum, doc) => sum + doc.data().timeTakenSeconds, 0);
+
+                    html += `<li class="student-item" onclick="viewStudentProgress('${userDoc.id}', '${user.name}')">
+                        <div class="student-name">${user.name}</div>
+                        <div class="student-stats">
+                            <div class="stat-item"><span class="stat-label">Letters:</span> <span class="stat-value">${totalLetters}</span></div>
+                            <div class="stat-item"><span class="stat-label">Time:</span> <span class="stat-value">${Math.round(totalTime / 60)}m</span></div>
+                        </div>
+                    </li>`;
+                }
+                
+                studentsList.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading admin data:', error);
+            }
+        }
+
+        function generateSessionId() {
+            return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        window.viewStudentProgress = async function(userId, userName) {
+            alert('Progress for ' + userName + ' - Integration with Google Sheets coming soon. Data is being logged in Firebase.');
+        };
+
+        // Initialize
+        updateLetterDisplay();
+        window.addEventListener('resize', resizeTracingCanvas);
+    </script>
+</body>
+</html>
